@@ -1,4 +1,9 @@
 #pragma once
+/********************************************************
+*Author: 刘进											*
+*Date:2017-05-06										*
+*Description:一系列函数头存放，供主函数调用				*
+*********************************************************/
 
 //用于存放函数头
 
@@ -48,5 +53,42 @@ void integral_system(void);
 
 #endif // !INTEGRAL_SYSTEM
 
+#ifndef MEMBERSHIP
 
+#define MENBERSHIP
+/********************************
+*membership:输出会员的基本信息	*
+*包括积分情况，会员性质等		*
+*********************************/
+void membership(void);
+#endif // !MEMBERSHIP
 
+#ifndef DISCOUNT_RATE
+
+#define DISCOUNT_RATE
+/****************************************
+*discount_rate:函数依据会员目前的积分	*
+*计算出其所享有的折扣，并返回折扣率		*
+*****************************************/
+double discount_rate();
+#endif // !DISCOUNT_RATE
+
+#ifndef CONSUMPTION_DISCOUNT_SYSTEM
+
+#define CONSUMPTION_DISCOUNT_SYSTEM
+/********************************************
+*consumption_discount_system:进入积分系统	*
+*********************************************/
+void consumption_discount_system(void);
+
+#endif // !CONSUMPTION_DISCOUNT_SYSTEM
+
+#ifndef CONSUMPTION_DISCOUNT
+
+#define CONSUMPTION_DISCOUNT
+/****************************************
+*consumption_discount:进入消费折扣系统	*
+*****************************************/
+void consumption_discount(void)
+
+#endif // !CONSUMPTION_DISCOUNT
