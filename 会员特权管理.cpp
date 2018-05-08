@@ -1,3 +1,9 @@
+/********************************************************
+*Author: 刘进											*
+*Date:2018-05-08										*
+*Description:关于三个积分系统的函数，供主函数调用		*
+*********************************************************/
+
 #include "stdafx.h"
 #include<stdlib.h>
 #include<math.h>
@@ -6,6 +12,7 @@
 #include "会员特权管理.h"
 
 ;
+//等级函数，好多地方调用
 int level(double integral)
 {
 	//定义需要的返回值
@@ -63,7 +70,38 @@ int level(double integral)
 	//返回积分integral对应的等级
 	return ret;
  }
+/*---------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------*/
+//打印会员信息的函数，也有好多地方调用，不过就是个过客
+void membership(void)
+{
+	//声明全局变量
+	extern double nowintegral;
+	//定义目前的等级
+	int nowlevel;
+	//计算目前的等级
+	nowlevel = level(nowintegral);
 
+	//判断会员的身份并输出
+	if (nowlevel <= 5)
+	{
+		printf("您目前是本店的高级会员\n\n");
+	}
+	else
+	{
+		printf("您目前的是本店的特级会员\n\n");
+	}
+	//输出目前的积分
+	printf("您目前的积分是：%.2f\n\n", nowintegral);
+
+}
+/*---------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------*/
+//以下函数组成了积分系统的累计功能
 double integral_accumulative(double original_integral,double this_integral)
 {
 	//定义此时的会员等级
@@ -140,29 +178,6 @@ double integral_accumulative(double original_integral,double this_integral)
 	return finally_integral;
 }
 
-void membership(void)
-{
-	//声明全局变量
-	extern double nowintegral;
-	//定义目前的等级
-	int nowlevel;
-	//计算目前的等级
-	nowlevel = level(nowintegral);
-
-	//判断会员的身份并输出
-	if (nowlevel <= 5)
-	{
-		printf("您目前是本店的高级会员\n\n");
-	}
-	else
-	{
-		printf("您目前的是本店的特级会员\n\n");
-	}
-	//输出目前的积分
-	printf("您目前的积分是：%.2f\n\n", nowintegral);
-
-}
-
 void integral(void)
 {
 	//清屏
@@ -175,7 +190,7 @@ void integral(void)
 	}
 	system("cls");
 	//输出欢迎语
-	printf("****欢 迎 进 入 积 分 系 统！***\n\n");
+	printf("***欢 迎 进 入 积 分 系 统！***\n\n");
 	Sleep(800);
 	//声明全局变量
 	extern double nowintegral;
@@ -219,7 +234,7 @@ void integral_system(void)
 		//调用积分函数
 		integral();
 		//定义执行变量
-		int call = 0;
+		int call = -1;
 		//打印这界面格式
 		puts("\n\n\n\n\n");
 		puts("--------------------------------------------------------");
@@ -231,11 +246,11 @@ void integral_system(void)
 		}
 		//打出主界面
 		puts("\r请call\n");
-		puts("积分系统 1\t返回主菜单 2");
+		puts("积分系统 1\t返回主菜单 0");
 
 		//读入用户输入的数
 		scanf_s("%d", &call);
-		while (call != 1 && call != 2)
+		while (call != 1 && call != 0)
 		{
 			printf("您的输入有误！\n");
 			//吸收掉错误的输入元素
@@ -248,8 +263,8 @@ void integral_system(void)
 			scanf_s("%d", &call);
 		}
 
-		//如果call=2，返回主菜单
-		if (call == 2)
+		//如果call=0，返回主菜单
+		if (call == 0)
 		{
 			//清屏
 			system("cls");
@@ -263,18 +278,22 @@ void integral_system(void)
 		}
 	}
 }
-
-void consumption_discount_system(void)
+/*---------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------*/
+//以下三个函数完成了积分折扣的功能
+void integral_discount_system(void)
 {
 	
 	for (;;)
 	{
 
 		//调用积分函数
-		consumption_discount();
+		integral_discount();
 
 		//定义执行变量
-		int call = 0;
+		int call = -1;
 		//打印这界面格式
 		puts("\n\n\n\n\n");
 		puts("--------------------------------------------------------");
@@ -286,11 +305,11 @@ void consumption_discount_system(void)
 		}
 		//打出主界面
 		puts("\r请call\n");
-		puts("积分折扣 1\t返回主菜单 2");
+		puts("积分折扣 1\t返回主菜单 0");
 
 		//读入用户输入的数
 		scanf_s("%d", &call);
-		while (call != 1 && call != 2)
+		while (call != 1 && call != 0)
 		{
 			printf("您的输入有误！\n");
 			//吸收掉错误的输入元素
@@ -299,12 +318,12 @@ void consumption_discount_system(void)
 
 			//打出主界面
 			puts("请call");
-			puts("积分折扣 1\t返回主菜单 2");
+			puts("积分折扣 1\t返回主菜单 0");
 			scanf_s("%d", &call);
 		}
 
-		//如果call=2，返回主菜单
-		if (call == 2)
+		//如果call=0，返回主菜单
+		if (call == 0)
 		{
 			//清屏
 			system("cls");
@@ -363,7 +382,7 @@ double discount_rate()
 	return rate;
 }
 
-void consumption_discount(void)
+void integral_discount(void)
 {
 	//清屏
 	system("cls");
@@ -375,7 +394,7 @@ void consumption_discount(void)
 	}
 	system("cls");
 	//输出欢迎语
-	printf("****欢 迎 进 入 消 费 折 扣 系 统！***\n\n");
+	printf("***欢 迎 进 入 消 费 折 扣 系 统！***\n\n");
 	Sleep(500);
 	//给出提示
 	printf("!!!选择消费折扣此次消费将不计入积分！\n\n");
@@ -410,4 +429,290 @@ void consumption_discount(void)
 	//输出本次需要的金额
 	printf("\n经折扣后本次消费金额为：%.2f\n", this_count*discount);
 
+}
+/*---------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------*/
+//以下若干个系统完成了系统的积分换购功能
+void integral_shop_system(void)
+{
+	//清屏
+	system("cls");
+	//制造加载假象
+	for (int i = 0; i < 3; i++)
+	{
+		printf(".");
+		Sleep(500);
+	}
+	system("cls");
+	//输出欢迎语
+	printf("***欢 迎 进 入 积 分 换 购 系 统！***\n\n");
+	Sleep(500);
+
+	//调用membership函数，打印会员身份与积分
+	membership();
+
+	puts("\n\n\n\n\n");
+	puts("-----------------------------------------");
+	puts("按任意键继续...");
+	_getch();
+	integral_shop();
+}
+
+void integral_shop(void)
+{
+	//进入系统的无限循环
+	for (;;)
+	{
+		//声明全局变量
+		extern double nowintegral;
+
+		//执行清屏处理
+		system("cls");
+		//执行加载处理
+		for (int i = 0; i < 3; i++)
+		{
+			printf(".");
+			Sleep(500);
+		}
+		//清空加载，并显示主画面
+		printf("\r您当前的积分是：%.2f\n\n", nowintegral);
+		puts("以下是您可以选购的商品\n\n");
+
+		//依据会员身份进入相应的商城
+		if (level(nowintegral) <= 5)
+		{
+			small_shop();
+			//提示用户查看商品详情
+			int call = -1;
+			puts("\n\n\n\n\n\n");
+			puts("-------------------------------------\n");
+			puts("call商品对应数字查看详情,返回主菜单 0！\n");
+			puts("请call");
+			scanf_s("%d", &call);
+			while (call < 0 || call>8)
+			{
+				puts("请输入正确的数字!");
+				//吸收掉输错的字符
+				char a[10];
+				gets_s(a);
+				scanf_s("%d", &call);
+			}
+			//判断输入的数字
+			if (call == 0)
+			{
+				break;
+			}
+			else
+			{
+				shop_good(call);
+			}//end if (call == 0)
+			
+		}
+		else
+		{
+
+			small_shop();
+			big_shop();
+			//提示用户查看商品详情
+			int call = -1;
+			puts("\n\n\n\n\n\n");
+			puts("-------------------------------------\n");
+			puts("call商品对应数字查看详情,返回主菜单 0！\n");
+			puts("请call");
+			while (call < 1 || call>14)
+			{
+				puts("请call正确的数字!");
+				//吸收掉输错的字符
+				char a[10];
+				gets_s(a);
+				scanf_s("%d", &call);
+			}
+			//判断输入的数字
+			if (call == 0)
+			{
+				break;
+			}
+			else
+			{
+				shop_good(call);
+			}//enf if (call == 0)
+		}
+	}
+}
+
+void small_shop(void)
+{
+	//打印出高级会员商品
+	printf("1. 君子兰盆栽\t2. 塑料洗脸盆\n");
+	printf("3. 洗衣液    \t4. 三折晴雨伞\n");
+	printf("5. 清风抽纸  \t6. 安慕希酸奶\n");
+	printf("7. 蓝牙耳机  \t8. 移动电源\n");
+}
+
+void big_shop(void)
+{
+	//打印出特级会员商品
+	printf("9. 山地自行车\t10.九号平衡车\n");
+	printf("11.滚筒洗衣机\t12.车载U盘\n");
+	printf("13.智能电视  \t14.iPhone X\n");
+}
+
+void shop_good(int call)
+{
+	system("cls");
+	//依据输入的数字打印其详细信息
+	switch (call)
+	{
+	case 1:
+		//打印君子兰的商品信息
+		puts("商品名称：君子兰(4-6片叶子)");
+		puts("商品毛重：1.0kg");
+		puts("是否含花盆：带盆栽好");
+		puts("开花季节：秋");
+		puts("京 东 价:￥20.00");
+		puts("所需积分：449");
+		break;
+		//打印洗脸盆的商品信息
+	case 2:
+		puts("商品名称：龙士达洗脸盆");
+		puts("商品毛重：380.00g");
+		puts("材质：塑料");
+		puts("产品尺寸（cm）:44x17 * 23");
+		puts("京 东 价:￥22.90");
+		puts("所需积分：499");
+		break;
+		//打印洗衣液的商品信息
+	case 3:
+		puts("商品名称：蓝月亮洁净洗衣液");
+		puts("商品毛重：1.1kg");
+		puts("类型：机洗");
+		puts("包装单位：瓶装");
+		puts("保质期：3年");
+		puts("京 东 价:￥24.90");
+		puts("所需积分：549");
+		break;
+		//打印雨伞的商品信息
+	case 4:
+		puts("商品名称：天堂晴雨伞");
+		puts("商品毛重：310.00g");
+		puts("颜色：蓝，粉，松绿，紫，米，深藏青(任选一种)");
+		puts("是否自动:手动 ");
+		puts("京 东 价:￥26.90");
+		puts("所需积分：599");
+		break;
+		//打印抽纸商品信息
+	case 5:
+		puts("商品名称：清风抽取式面纸");
+		puts("商品毛重：3.26kg");
+		puts("层数：2层");
+		puts("香型：无香");
+		puts("抽数：200抽软抽*20包纸巾");
+		puts("京 东 价:￥39.90");
+		puts("所需积分：899");
+		break;
+		//打印酸奶商品信息
+	case 6:
+		puts("商品名称：伊利安慕希希腊风味酸奶");
+		puts("商品毛重：2.86kg");
+		puts("每箱规格：12");
+		puts("是否含糖：含糖");
+		puts("净含量：205g");
+		puts("保质期:6个月");
+		puts("生产日期：20180505");
+		puts("京 东 价:￥56.10");
+		puts("所需积分：1199");
+		break;
+		//打印蓝牙耳机商品信息
+	case 7:
+		puts("商品名称：捷波朗BOOST 劲步 夏季青春版");
+		puts("商品毛重：100.00g");
+		puts("是否单双耳：单边免提");
+		puts("佩戴方式：挂耳式");
+		puts("颜色：黑色，白色，玫瑰金，绿色，金绿色");
+		puts("京 东 价:￥199.00");
+		puts("所需积分：3699");
+		break;
+		//打印充电宝商品信息
+	case 8:
+		puts("商品名称：ZMIQB815");
+		puts("商品毛重：0.62kg");
+		puts("容量：15000mAh");
+		puts("电芯类型：锂离子电池");
+		puts("接口数量：3");
+		puts("其他：支持switch笔记本PD 2.0协议");
+		puts("颜色：锖色 ");
+		puts("京 东 价:￥269.00");
+		puts("所需积分：4999");
+		break;
+		//打印山地自行车商品信息
+	case 9:
+		puts("商品名称：永久（FOREVER） 27速自行车山地车");
+		puts("商品毛重：19.0kg");
+		puts("车架材质：铝合金");
+		puts("花鼓类型：2培林");
+		puts("车把类型：直把");
+		puts("颜色：黑绿，黑红，黑蓝。");
+		puts("京 东 价:￥899.00");
+		puts("所需积分：19999");
+		break;
+		//打印九号平衡车的商品信息
+	case 10:
+		puts("商品名称：小米（MI） 定制版Ninebot 九号平衡车");
+		puts("商品毛重：15.9kg");
+		puts("理论时速：10-20km/h");
+		puts("理论续航：20-30km");
+		puts("适用对象：成年");
+		puts("颜色：黑色，白色");
+		puts("京 东 价:￥1999.00");
+		puts("所需积分：41999");
+		break;
+		//打印滚筒洗衣机的商品信息
+	case 11:
+		puts("商品名称：海尔（Haier)双喷淋变频滚筒洗衣机");
+		puts("商品毛重：77.0kg");
+		puts("产品类型：滚筒");
+		puts("洗涤容量：8kg");
+		puts("颜色：银色");
+		puts("京 东 价:￥2499.00");
+		puts("所需积分：45999");
+		break;
+		//打印U盘的商品信息
+	case 12:
+		puts("商品名称：金士顿（Kingston）HXS3");
+		puts("商品毛重：50.00g");
+		puts("接口：USB3.1");
+		puts("容量：512G");
+		puts("京 东 价:￥2199.00");
+		puts("所需积分：45999");
+		break;
+		//打印电视的商品信息
+	case 13:
+		puts("商品名称：小米电视4A 标准版");
+		puts("商品毛重：16.3kg");
+		puts("分辨率：超高清");
+		puts("屏幕尺寸：55英寸");
+		puts("京 东 价:￥2599.00");
+		puts("所需积分：54999");
+		break;
+		//打印iPhone X的商品信息
+	case 14:
+		puts("商品名称：AppleiPhone X");
+		puts("商品毛重：440.00g");
+		puts("机身内存：64GB");
+		puts("网络支持：移动联通电信4G手机");
+		puts("颜色：银色，深空灰色");
+		puts("其他：公开版，官方标配");
+		puts("京 东 价:￥8316.00");
+		puts("所需积分：179999");
+		//打印不可预料的情况
+	default:
+		puts("系统出错了！！！！！！");
+	}
+	//打印返回界面
+	puts("\n\n\n\n");
+	puts("-----------------------------------------");
+	puts("按任意键返回！");
+	_getch();
 }
