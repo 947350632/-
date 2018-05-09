@@ -35,13 +35,12 @@ void membership(void);
 #define INTEGRAL_ACCUMULATIVE
 
 /********************************************
-*integral_accumulative:该函数接收两个数据	*
-*一个是会员的原始积分，另一个是本次积分，	*
-*函数将依照会员目前的等级进行倍率积分，并	*
-*将返回会员的最终积分。如果出错将返回原始	*
-*积分										*
+*integral_accumulative:该函数接收一个数据本	*
+*次积分，函数将依照会员目前的等级进行倍率积	*
+*分，并将返回会员的最终积分。如果出错将返回	*
+*原始积分									*
 *********************************************/
-double integral_accumulative(double original_integral, double this_integral);
+double integral_accumulative( double this_integral);
 
 #endif // !INTEGRAL_ACCUMULATIVE
 
@@ -160,3 +159,34 @@ void big_shop(void);
 void shop_good(int i);
 #endif // !SHOP_GOOD
 
+//5.6
+#ifndef EXCHANGE_SYSTEM
+
+#define EXCHANGE_SYSTEM
+/************************************************
+*exchange_system:用于进入交换积分与商品的界面	*
+*************************************************/
+void exchange_system(int call);
+#endif // !EXCHANGE_SYSTEM
+
+//5.7
+#ifndef BUY
+
+#define BUY
+/************************************
+*buy:需要一个参数，传入商品的编号	*
+	询问商品的购买与否				*
+*************************************/
+void buy(int call);
+#endif // !BUY
+
+//5.8
+#ifndef NEED_INTEGRAL
+
+#define NEED_INTEGRAL
+/********************************************
+*need_integral:需要以个参数，传入商品的编号	*
+*				返回商品所需的积分			*
+*********************************************/
+double need_integral(int call);
+#endif // !NEED_INTEGRAL

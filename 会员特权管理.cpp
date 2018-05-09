@@ -81,6 +81,7 @@ void membership(void)
 	extern double nowintegral;
 	//定义目前的等级
 	int nowlevel;
+
 	//计算目前的等级
 	nowlevel = level(nowintegral);
 
@@ -102,12 +103,15 @@ void membership(void)
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------*/
 //以下函数组成了积分系统的累计功能
-double integral_accumulative(double original_integral,double this_integral)
+double integral_accumulative(double this_integral)
 {
-	//定义此时的会员等级
+	//声明全局变量
+	extern double nowintegral;
+	//定义目前的等级
 	int nowlevel;
-	//计算出会员等级
-	nowlevel = level(original_integral);
+
+	//计算目前的等级
+	nowlevel = level(nowintegral);
 
 	//定义最终积分
 	double finally_integral=0.0;
@@ -157,23 +161,19 @@ double integral_accumulative(double original_integral,double this_integral)
 		break;
 	//不排除输入错误的情况，此时rate=0.0，并给出提示
 	default:
-		puts("\n本次积分失败！！");
-		rate = 0.0;
-		break;
-
+		system("cls");
+		puts("系统出错了！！！！！！");
+		//打印返回界面
+		puts("\n\n\n\n\n\n");
+		puts("-------------------------------------------");
+		puts("按任意键退出系统！");
+		_getch();
+		exit(0);
 	}
 
-	//判断程序的原始会员积分是否输入正确，如果错误返回原始积分
-	if (fabs(rate - 0.0) < 1e-6)
-	{
-		printf("程序出现错误\n");
-		finally_integral = original_integral;
-	}
 	//计算最终积分结果
-	else
-	{
-		finally_integral = original_integral + rate*this_integral;
-	}
+		finally_integral = nowintegral + rate*this_integral;
+
 	//返回最终的积分结果
 	return finally_integral;
 }
@@ -188,10 +188,12 @@ void integral(void)
 		printf(".");
 		Sleep(500);
 	}
-	system("cls");
+
+	system("cls");//清屏
 	//输出欢迎语
 	printf("***欢 迎 进 入 积 分 系 统！***\n\n");
 	Sleep(800);
+
 	//声明全局变量
 	extern double nowintegral;
 
@@ -200,6 +202,7 @@ void integral(void)
 
 	//定义本次积分
 	double this_integral = -1.0;
+
 	printf("请输入本次积分:");
 	do
 	{
@@ -213,18 +216,21 @@ void integral(void)
 			char b[10];
 			gets_s(b);
 			//给出错误提示语
-			printf("请检查是否输入错误！\n");
-			printf("请输入本次积分:");
+			printf("请检查是否输入错误！");
+			//给出等待按任意键继续
+			_getch();
+			printf("\r请输入本次积分:");
 		}
 	} while (this_integral<0.0);
 	
 	//制造计算假象
 	Sleep(500);
+
 	//计算最终积分
-	nowintegral = integral_accumulative(nowintegral, this_integral);
+	nowintegral = integral_accumulative(this_integral);
+
 	//打印最终的积分
 	printf("\n您目前的积分是%.2f\n\n", nowintegral);
-
 }
 
 void integral_system(void)
@@ -233,38 +239,33 @@ void integral_system(void)
 	{
 		//调用积分函数
 		integral();
+
 		//定义执行变量
 		int call = -1;
+
 		//打印这界面格式
-		puts("\n\n\n\n\n");
-		puts("--------------------------------------------------------");
+		puts("\n\n\n\n\n\n");
+		puts("-------------------------------------------");
+
 		//制造动态效果
 		for (int i = 0; i < 5; i++)
 		{
 			printf(".");
 			Sleep(500);
 		}
+
 		//打出主界面
 		puts("\r请call\n");
 		puts("积分系统 1\t返回主菜单 0");
 
 		//读入用户输入的数
-		scanf_s("%d", &call);
-		while (call != 1 && call != 0)
+		while (call != '0'&&call != '1')
 		{
-			printf("您的输入有误！\n");
-			//吸收掉错误的输入元素
-			char a[10];
-			gets_s(a);
-
-			//打出主界面
-			puts("请call");
-			puts("积分系统 1\t返回主菜单 2");
-			scanf_s("%d", &call);
+			call = _getch();
 		}
 
 		//如果call=0，返回主菜单
-		if (call == 0)
+		if (call == '0')
 		{
 			//清屏
 			system("cls");
@@ -274,6 +275,7 @@ void integral_system(void)
 				printf(".");
 				Sleep(500);
 			}
+
 			break;
 		}
 	}
@@ -288,42 +290,34 @@ void integral_discount_system(void)
 	
 	for (;;)
 	{
-
 		//调用积分函数
 		integral_discount();
 
 		//定义执行变量
 		int call = -1;
+
 		//打印这界面格式
-		puts("\n\n\n\n\n");
-		puts("--------------------------------------------------------");
+		puts("\n\n\n\n\n\n");
+		puts("-------------------------------------------");
 		//制造动态效果
 		for (int i = 0; i < 5; i++)
 		{
 			printf(".");
 			Sleep(500);
 		}
+
 		//打出主界面
 		puts("\r请call\n");
 		puts("积分折扣 1\t返回主菜单 0");
 
 		//读入用户输入的数
-		scanf_s("%d", &call);
-		while (call != 1 && call != 0)
+		while (call != '0'&&call != '1')
 		{
-			printf("您的输入有误！\n");
-			//吸收掉错误的输入元素
-			char a[10];
-			gets_s(a);
-
-			//打出主界面
-			puts("请call");
-			puts("积分折扣 1\t返回主菜单 0");
-			scanf_s("%d", &call);
+			call = _getch();
 		}
 
 		//如果call=0，返回主菜单
-		if (call == 0)
+		if (call == '0')
 		{
 			//清屏
 			system("cls");
@@ -333,10 +327,10 @@ void integral_discount_system(void)
 				printf(".");
 				Sleep(500);
 			}
+
 			break;
 		}
 	}
-
 }
 
 double discount_rate()
@@ -374,8 +368,14 @@ double discount_rate()
 		puts("\n恭喜您本次消费为您八五折");
 		break;
 	default:
-		puts("\n程序运行出错！");
-		break;
+		system("cls");
+		puts("系统出错了！！！！！！");
+		//打印返回界面
+		puts("\n\n\n\n\n\n");
+		puts("-------------------------------------------");
+		puts("按任意键退出系统！");
+		_getch();
+		exit(0);
 	}
 
 	//返回折扣率
@@ -392,13 +392,16 @@ void integral_discount(void)
 		printf(".");
 		Sleep(500);
 	}
+
 	system("cls");
 	//输出欢迎语
 	printf("***欢 迎 进 入 消 费 折 扣 系 统！***\n\n");
 	Sleep(500);
+
 	//给出提示
 	printf("!!!选择消费折扣此次消费将不计入积分！\n\n");
 	Sleep(1500);
+
 	//声明全局变量
 	extern double nowintegral;
 
@@ -411,9 +414,13 @@ void integral_discount(void)
 	//提示输入此次消费金额
 	printf("请输入此次消费金额：");
 	//输入控制处理
+
 	while (scanf_s("%lf",&this_count ) == 0)
 	{
 		printf("您的输入不符合要求！");
+		//吸收掉输错的字符
+		while (getchar() != '\n');
+		getchar();
 		_getch();
 		printf("\r请输入此次消费金额：");
 	}
@@ -421,10 +428,13 @@ void integral_discount(void)
 	//制造延迟假象
 	Sleep(500);
 	//定义折扣率
+
 	double discount;
 	//计算折扣率
+
 	discount = discount_rate();
 	//制造延迟假象
+
 	Sleep(500);
 	//输出本次需要的金额
 	printf("\n经折扣后本次消费金额为：%.2f\n", this_count*discount);
@@ -445,6 +455,7 @@ void integral_shop_system(void)
 		printf(".");
 		Sleep(500);
 	}
+
 	system("cls");
 	//输出欢迎语
 	printf("***欢 迎 进 入 积 分 换 购 系 统！***\n\n");
@@ -453,10 +464,12 @@ void integral_shop_system(void)
 	//调用membership函数，打印会员身份与积分
 	membership();
 
-	puts("\n\n\n\n\n");
-	puts("-----------------------------------------");
+	puts("\n\n\n\n\n\n");
+	puts("-------------------------------------------");
 	puts("按任意键继续...");
 	_getch();
+
+	//进入积分商城
 	integral_shop();
 }
 
@@ -476,6 +489,7 @@ void integral_shop(void)
 			printf(".");
 			Sleep(500);
 		}
+
 		//清空加载，并显示主画面
 		printf("\r您当前的积分是：%.2f\n\n", nowintegral);
 		puts("以下是您可以选购的商品\n\n");
@@ -483,60 +497,71 @@ void integral_shop(void)
 		//依据会员身份进入相应的商城
 		if (level(nowintegral) <= 5)
 		{
+			//进入高级会员商城
 			small_shop();
-			//提示用户查看商品详情
+
+			//定义控制变量
 			int call = -1;
+
+			//提示用户选择
 			puts("\n\n\n\n\n\n");
-			puts("-------------------------------------\n");
+			puts("-------------------------------------------");
 			puts("call商品对应数字查看详情,返回主菜单 0！\n");
 			puts("请call");
-			scanf_s("%d", &call);
+
+			//读入键盘输入的数字
 			while (call < 0 || call>8)
 			{
-				puts("请输入正确的数字!");
-				//吸收掉输错的字符
-				char a[10];
-				gets_s(a);
-				scanf_s("%d", &call);
+				call = _getch()-'0';
 			}
-			//判断输入的数字
+
+			//判断输入的数字为0则结束程序
 			if (call == 0)
 			{
 				break;
 			}
 			else
-			{
-				shop_good(call);
+			{	
+				//打印购物消息
+				exchange_system(call);
+	
 			}//end if (call == 0)
-			
 		}
 		else
 		{
-
+			//进入特级会员商城
 			small_shop();
 			big_shop();
-			//提示用户查看商品详情
+
+			//定义控制变量
 			int call = -1;
+
+			//提示用户选择
 			puts("\n\n\n\n\n\n");
-			puts("-------------------------------------\n");
+			puts("-------------------------------------------");
 			puts("call商品对应数字查看详情,返回主菜单 0！\n");
 			puts("请call");
+
+			//读入用户输入的数字
+			scanf_s("%d", &call);
 			while (call < 1 || call>14)
 			{
 				puts("请call正确的数字!");
 				//吸收掉输错的字符
-				char a[10];
-				gets_s(a);
+				while (getchar() != '\n');
+				getchar();
 				scanf_s("%d", &call);
 			}
-			//判断输入的数字
+
+			//判断输入的数字，如果为0结束程序
 			if (call == 0)
 			{
 				break;
 			}
 			else
 			{
-				shop_good(call);
+				//打印购物消息
+				exchange_system(call);
 			}//enf if (call == 0)
 		}
 	}
@@ -562,6 +587,7 @@ void big_shop(void)
 void shop_good(int call)
 {
 	system("cls");
+
 	//依据输入的数字打印其详细信息
 	switch (call)
 	{
@@ -706,13 +732,224 @@ void shop_good(int call)
 		puts("其他：公开版，官方标配");
 		puts("京 东 价:￥8316.00");
 		puts("所需积分：179999");
+		break;
 		//打印不可预料的情况
 	default:
+		system("cls");
 		puts("系统出错了！！！！！！");
+		//打印返回界面
+		puts("\n\n\n\n\n\n");
+		puts("-------------------------------------------");
+		puts("按任意键退出系统！");
+		_getch();
+		exit(0);
 	}
-	//打印返回界面
-	puts("\n\n\n\n");
-	puts("-----------------------------------------");
-	puts("按任意键返回！");
-	_getch();
+}
+
+void exchange_system(int call)
+{
+	for (;;)
+	{
+		//打印商品详细信息
+		shop_good(call);
+
+		//打印主界面
+		puts("\n\n\n\n\n\n");
+		puts("-------------------------------------------");
+		puts("换购此物 1\t返回上一级 0");
+
+		//定义控制变量
+		int call1 = -1;
+
+		//读入用户键盘输入
+		while (call1 != '1' && call1 != '0')
+			call1 = _getch();
+
+		//响应用户键盘输入
+		if (call1 == '0')
+		{
+			break;
+		}
+		else
+		{
+			buy(call);
+		}
+	}
+}
+
+void buy(int call)
+{
+	for (;;)
+	{
+		system("cls");
+
+		//打印主界面
+		puts("您确认换购此物？");
+		puts("\n\n\n\n\n\n");
+		puts("-------------------------------------------");
+		puts("确认 1\t返回上一级 0");
+
+		//定义控制变量与声明全局变量
+		int call1 = -1;
+		extern double nowintegral;
+
+		//读入用户键盘的输入
+		while (call1 != '1' && call1 != '0')
+		{
+			call1 = _getch();
+		}
+
+		//响应命令
+		if (call1 == '0')
+		{
+			break;
+		}
+		else
+		{
+			//计算对应商品的积分
+			double price = need_integral(call);
+
+			//判断换购成功与否
+			if (nowintegral >= price)
+			{
+				//减去消耗的积分
+				nowintegral = nowintegral - price;
+
+				system("cls");
+				puts("**恭喜你换购成功**");
+
+				_getch();
+				break;
+			}
+			else
+			{
+				system("cls");
+				puts("----很抱歉，您的积分不足！----");
+
+				//特级会员进入补差价功能
+				if (level(nowintegral) > 5)
+				{
+					//打印操作面板
+					puts("\n\n\n\n\n\n");
+					puts("-------------------------------------------");
+					puts("RMB补差价 1\t返回 0");
+
+					//定义控制变量
+					int call2 = -1;
+
+					//读入用户键盘操作
+					while (call2 != '1' && call2 != '0')
+					{
+						call2 = _getch();
+					}
+
+					//响应用户键盘操作
+					if (call2 == '0')
+					{
+						break;
+					}
+					else
+					{
+						system("cls");
+
+						//依照会员等级确定会员RMB折差价比例
+						if (level(nowintegral <= 8))
+							//6-8级会员人民币：积分=1:20
+							printf("你需要的差价为：%.2f元", (price - nowintegral) / 20.0);
+						else
+							//9-10级会员人民币：戒饭=1:30
+							printf("你需要的差价为：%.2f元", (price - nowintegral) / 30.0);
+
+						//打印界面判断是否完成补差价
+						puts("\n\n\n\n\n\n");
+						puts("-------------------------------------------");
+						puts("确认完成补差价 1\t返回 0");
+
+						//定义控制变量
+						int call3 = -1;
+
+						//读入用户键盘操作
+						while (call3 != '1' && call3 != '0')
+						{
+							call3 = _getch();
+						}
+
+						//响应用户键盘操作
+						if (call3 == '1')
+						{
+							system("cls");
+							puts("**恭喜你换购成功**");
+							nowintegral = 0.0;
+						}
+							
+						break;
+					}
+				}
+				//高级会员按任意键退出
+				_getch();
+				break;
+			}
+		}
+	}
+}
+
+double need_integral(int call)
+{
+	//定义返回变量
+	double ret;
+
+	switch (call)
+	{
+	case 1://君子兰的积分
+		ret = 449.0;
+		break;
+	case 2://洗脸盆的积分
+		ret = 499.0;
+		break;
+	case 3://洗衣液的积分
+		ret = 549.0;
+		break;
+	case 4://雨伞的积分
+		ret = 599.0;
+		break;
+	case 5://抽纸的积分
+		ret = 899.0;
+		break;
+	case 6://牛奶的积分
+		ret = 1199.0;
+		break;
+	case 7://蓝牙耳机的积分
+		ret = 3699.0;
+		break;
+	case 8://移动电源的积分
+		ret = 4999.0;
+		break;
+	case 9://自行车的积分
+		ret = 19999.0;
+		break;
+	case 10://平衡车的积分
+		ret = 41999.0;
+		break;
+	case 11://海尔洗衣机的积分
+	case 12://512GU盘的积分
+		ret = 45999.0;
+		break;
+	case 13://电视机的积分
+		ret = 52999.0;
+		break;
+	case 14://手机的积分
+		ret = 179999.0;
+		break;
+	default:
+		system("cls");
+		puts("系统出错了！！！！！！");
+		//打印返回界面
+		puts("\n\n\n\n\n\n");
+		puts("-------------------------------------------");
+		puts("按任意键退出系统！");
+		_getch();
+		exit(0);
+	}
+
+	return ret;
 }
